@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.75" />
+    <title>Accueil</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="Bornestyle/styleremplirfrtel.css" />
+  </head>
+  <style>
+    @keyframes shake {
+      0% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(-1px, 0);
+      }
+      50% {
+        transform: translate(1px, 0);
+      }
+      75% {
+        transform: translate(-1px, 0);
+      }
+      100% {
+        transform: translate(1px, 0);
+      }
+    }
+
+    .custom-year-month-speak {
+      animation: shake 1s ease-in-out infinite;
+    }
+  </style>
+
+  <body>
+    <div id="video-container">
+      <video id="video-background" autoplay loop muted>
+        <source src="rs/remplirmenu.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      <div id="content">
+        <img
+          id="moving-image"
+          src="Images/TransparentLogo.png"
+          alt="Moving Image"
+        />
+        <a href="index.html">
+          <img id="moving-imageback" src="Images/back.png" alt="Moving Image" />
+        </a>
+        <div class="button-title">Borne CBS-RH</div>
+        <div class="button-subtext">القائمة</div>
+
+        <div class="button-description" style="text-align: center;">Pour recevoir un SMS de notification une fois votre demande est traitée <br> merci d'ajouter votre n° de téléphone.</div>
+
+        <button class="custom-button" id="custom-button1">
+          <img src="Images/tick.png" alt="Icon" width="40" height="40" />
+          <span id="button-text"></span>
+        </button>
+
+        <div class="input-field-container1">
+        
+
+          <input
+            type="text"
+            class="input-field"
+            id="number"
+            placeholder="🕿 Numéro de téléphone"
+          />
+          <img
+          src="Images/speak.png"
+          class="custom-year-month-speak"
+          id="speakicon1"
+          alt="Icon"
+          width="45"
+          height="45"
+        />
+          <img
+          src="Images/micro.png"
+          id="get_nom"
+          alt="Icon"
+          width="40"
+          height="40"
+        />
+        </div>
+
+        <button class="custom-buttonOK" id="custom-buttonOK">
+          <span id="button-text">Suivant</span>
+          <img src="Images/arrowFR.png" alt="Icon" width="40" height="40" />
+        </button>
+      </div>
+    </div>
+
+    <div id="popup">
+      <h3>J'écoute ...</h3>
+      <video autoplay loop muted>
+        <source src="rs/talkhd.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <script>
+      document.getElementById("get_nom").addEventListener("click", function () {
+        document.getElementById("popup").style.display = "block";
+
+        setTimeout(function () {
+          document.getElementById("popup").style.display = "none";
+        }, 4000);
+      });
+    </script>
+    <script>
+      var arabicButton = document.getElementById("speakicon1");
+      var arabicAudio = new Audio("rs/howtotelFR.mp3");
+
+      arabicButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        arabicAudio.play();
+      });
+
+      var arabicButton1 = document.getElementById("speakicon2");
+      var arabicAudio1 = new Audio("rs/howtoAR2.mp3");
+
+      arabicButton1.addEventListener("click", function (event) {
+        event.preventDefault();
+        arabicAudio1.play();
+      });
+
+      var arabicButton2 = document.getElementById("speakicon3");
+      var arabicAudio2 = new Audio("rs/howtoAR3.mp3");
+
+      arabicButton2.addEventListener("click", function (event) {
+        event.preventDefault();
+        arabicAudio2.play();
+      });
+    </script>
+    <script>
+      document.getElementById("get_nom").addEventListener("click", function () {
+        document.getElementById("popup").style.display = "block";
+
+        setTimeout(function () {
+          document.getElementById("popup").style.display = "none";
+        }, 5000);
+      });
+
+      // ... (Other popup scripts)
+
+      // Check if SpeechRecognition is supported by the browser
+      if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
+        // Create an instance of SpeechRecognition for the 'name' input
+        const nameRecognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+        // Set the recognition language to Arabic
+        nameRecognition.lang = "fr-FR";
+
+        // Variable to track the last time speech was detected for name
+        let lastNameSpeechTime = Date.now();
+
+        // Handle the result event for name
+        nameRecognition.onresult = function (event) {
+          const result = event.results[0][0].transcript;
+          const name = document.getElementById("number");
+
+          // Set the recognized text as the value of the input field
+          name.value = result;
+
+          // Update the last speech time for name
+          lastNameSpeechTime = Date.now();
+        };
+
+        nameRecognition.onerror = function (event) {
+          console.error("Speech recognition error occurred for name:", event.error);
+        };
+
+        // Handle the end event for name
+        nameRecognition.onend = function () {
+          const elapsedTime = Date.now() - lastNameSpeechTime;
+
+          if (elapsedTime >= 3000) {
+            nameRecognition.start();
+          }
+        };
+
+        const nameStartButton = document.getElementById("get_nom");
+        nameStartButton.addEventListener("click", function () {
+          nameRecognition.start();
+        });
+
+        // ... (Other recognition instances)
+      } else {
+        console.error("Speech recognition not supported by the browser.");
+      }
+    </script>
+    <script>
+      document
+        .getElementById("custom-buttonOK")
+        .addEventListener("click", function () {
+          //window.location.href = 'MerciAR.html';
+        });
+    </script>
+    <script>
+      // Retrieve the text from the URL parameters
+      const piecedemander = new URLSearchParams(window.location.search);
+      const buttonText = piecedemander.get("text");
+
+      // Use the buttonText to update the button text
+      const buttonSpan = document.getElementById("button-text");
+      buttonSpan.textContent = buttonText;
+
+      const inputyear = document.getElementById("year");
+      const inputmonth = document.getElementById("month");
+      const speakicon3 = document.getElementById("speakicon3");
+      const get_year = document.getElementById("get_year");
+      const get_month = document.getElementById("get_month");
+
+      if (buttonText !== "طلب بطاقة بيانية فالأجر") {
+        inputyear.style.visibility = "hidden";
+        inputmonth.style.visibility = "hidden";
+        speakicon3.style.visibility = "hidden";
+        get_year.style.visibility = "hidden";
+        get_month.style.visibility = "hidden";
+      }
+    </script>
+    <script>
+      document
+        .getElementById("custom-buttonOK")
+        .addEventListener("click", function (event) {
+          event.preventDefault(); // Prevent the form from submitting
+
+          // Function to get the value of a parameter from the query string
+          function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+          }
+
+          // Retrieve values from the query string
+          const textValue = getQueryParam("text");
+          const nameValue = getQueryParam("name");
+          const matriculeValue = getQueryParam("matricule");
+          const yearValue = getQueryParam("year");
+          const monthValue = getQueryParam("month");
+          const Phonenumber = document.getElementById("number").value;
+
+          // Use the values as needed
+          console.log("Text:", textValue);
+          console.log("Name:", nameValue);
+          console.log("Matricule:", matriculeValue);
+          console.log("Year:", yearValue);
+          console.log("Month:", monthValue);
+          console.log("Phonenumber:", Phonenumber);
+
+          // Redirect to sendemail.php with parameters
+          window.location.href = `sendemail.php?text=${textValue}&name=${nameValue}&matricule=${matriculeValue}&year=${yearValue}&month=${monthValue}&phone=${Phonenumber}&langue=FR`;
+        });
+    </script>
+  </body>
+</html>
